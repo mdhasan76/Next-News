@@ -4,7 +4,6 @@ import Banner from "@/components/UI/Banner";
 import AllNews from "@/components/UI/AllNews";
 
 const HomePage = (props) => {
-  console.log(props);
   return (
     <>
       <Head>
@@ -30,6 +29,5 @@ HomePage.getLayout = function getLayout(page) {
 export const getStaticProps = async () => {
   const res = await fetch("http://localhost:5000/news");
   const data = await res.json();
-  console.log(data);
-  return { props: { data: data } };
+  return { props: { data: data }, revalidate: 10 };
 };
