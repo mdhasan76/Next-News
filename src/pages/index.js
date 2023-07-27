@@ -2,8 +2,20 @@ import Head from "next/head";
 import RootLayout from "@/components/Layouts/RootLayout";
 import Banner from "@/components/UI/Banner";
 import AllNews from "@/components/UI/AllNews";
+import { useGetNewsQuery } from "@/redux/api/api";
+import dynamic from "next/dynamic";
 
 const HomePage = (props) => {
+  const { data, isLoading } = useGetNewsQuery("");
+  if (isLoading) {
+    return <h1>Loading...</h1>;
+  }
+
+  const DynamicBanner = dynamic(() => import("@/components/UI/Banner"), {
+    loading: () => <h1>Loading...</h1>,
+    ssr: false,
+  });
+
   return (
     <>
       <Head>
@@ -15,8 +27,8 @@ const HomePage = (props) => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Banner />
-      <AllNews allNews={props.data} />
+      <DynamicBanner></DynamicBanner>
+      <AllNews allNews={data} />
     </>
   );
 };
@@ -26,8 +38,8 @@ HomePage.getLayout = function getLayout(page) {
   return <RootLayout>{page}</RootLayout>;
 };
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
   const res = await fetch("http://localhost:5000/news");
   const data = await res.json();
-  return { props: { data: data }, revalidate: 10 };
+  return { props: { data: data } };
 };
