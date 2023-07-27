@@ -2,6 +2,7 @@ import {
   ProfileOutlined,
   MobileOutlined,
   UserOutlined,
+  AimOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import styles from "@/styles/Home.module.css";
@@ -32,6 +33,16 @@ const HeaderSec = () => {
         </h1>
       </div>
       <Menu theme="dark" mode="vertical" className={styles.menu_items}>
+        <Link href="/add-news">
+          <items
+            style={{
+              margin: "0px 25px",
+            }}
+          >
+            <AimOutlined />
+            Add News
+          </items>
+        </Link>
         <Link href="/allNews">
           <items>
             <ProfileOutlined />
